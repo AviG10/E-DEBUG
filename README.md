@@ -21,7 +21,10 @@
 5. In the _**questions**_ collection, import the json file found at the folder _**"/Support_Resources/Database_Data"**_.
 6. Open the downloaded folder on _**VS Code**_.
 7. Run the following command to install all dependencies: _**"npm i"**_.
-8. Run the following command to run the server on the system: _**"npm start"**_.
-9. Open _**Any Web Browser**_ and type the Url : _**"localhost:3000"**_.
-10. Website will be Running.
+8. Go to the following reporsitory: "https://github.com/AviG10/CODE-EXECUTION-ENGINE".
+9. Download and Run the Website by following the instructions mentioned in the repository.
+
+10. Run the following command to run the server on the system: _**"npm start"**_.
+11. Open _**Any Web Browser**_ and type the Url : _**"localhost:3000"**_.
+12. Website will be Running.
  
