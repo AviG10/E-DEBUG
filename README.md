@@ -10,6 +10,10 @@
 
 ### • This Mini Project is made under the Guidence of  _**DR. S. R. Balasundaram**_
 
+### • Developed for _**Department of Computer Science, NIT TRICHY**_.
+
+### • Developed in _**E-learning and HCI Lab**_.
+
 ### • This a Web-Based Platfrom intend to improve the _**Debugging Skills**_ of programmers on _**Data Structures and Algorithms.**_
 
 ### • _**Steps to Run the Website on your Systems :**_ 
