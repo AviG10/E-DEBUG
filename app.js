@@ -62,21 +62,11 @@ mongoose
     const n1 = "" + randomIntFromInterval(1, 9);
     const arr1 = generateRandomArray(n1);
     
-    // console.log(n1);
-    // console.log(arr1);
-    
     const n2 = "" + randomIntFromInterval(1, 9);
     const arr2 = generateRandomArray(n2);
-    
-    // console.log(n2);
-    // console.log(arr2);
 
     const n3 = "" + randomIntFromInterval(1, 9);
     const arr3 = generateRandomArray(n3);
-    
-    // console.log(n3);
-    // console.log(arr3);
-
 
     res.render(`${__dirname}/Client/questionpage.ejs`, {
       difficulty:  data["difficulty"],
