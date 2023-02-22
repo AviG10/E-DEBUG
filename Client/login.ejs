@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>Login</title>
+      <link rel="icon" href="imglogin/iconlogin.png" type="image/x-icon">
+      <link rel="stylesheet" href="csslogin/login.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+   </head>
+   <body>
+      <div class="container">
+         <header>Login Form</header>
+         <form action="/login" method="post">
+            <div class="input-field">
+               <input type="text" name="username" required>
+               <label>EMAIL ID / USERNAME</label>
+            </div>
+            <div class="input-field">
+               <input class="pswrd" type="password" name="password" required>
+               <span class="show">SHOW</span>
+               <label>PASSWORD</label>
+            </div>
+            <div class="button">
+               <div class="inner"></div>
+               <button type="submit">LOGIN / REGISTER</button>
+            </div>
+         </form>
+      </div>
+      <script>
+         var input = document.querySelector('.pswrd');
+         var show = document.querySelector('.show');
+         show.addEventListener('click', active);
+         function active(){
+           if(input.type === "password"){
+             input.type = "text";
+             show.style.color = "#1DA1F2";
+             show.textContent = "HIDE";
+           }else{
+             input.type = "password";
+             show.textContent = "SHOW";
+             show.style.color = "#111";
+           }
+         }
+      </script>
+   </body>
+</html>

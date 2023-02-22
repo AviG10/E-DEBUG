@@ -13,7 +13,7 @@ $(document).ready(function () {
     $("#submit").click(function () {
     $.get("/submit",
             function (res) {
-                window.location.href = '/';
+                window.location.href = '/logout';
             }
             );
     });

@@ -17,7 +17,7 @@
     <div class="header container">
       <div class="nav-bar">
         <div class="brand">
-          <a href="/">
+          <a href="/logout">
             <h1><span>E-</span>Debug <span></h1>
           </a>
         </div>
@@ -28,9 +28,9 @@
           </div>
           
           <ul>
-            <li><a href="/" data-after="Home">Home</a></li>
+            <li><a href="/logout" data-after="Home">Home</a></li>
             <li><a href="#projects" data-after="Projects">User Guide</a></li>
-            <li><a href="/login" >Log in / Register</a></li>
+            <li><a href="/logoutbutton" >Logout</a></li>
           </ul>
         
         </div>
@@ -48,7 +48,7 @@
         <h1>Learn <span></span></h1>
         <h1>To Debug<span></span></h1>
         <h1>The Code Faster<span></span></h1>
-        <a href="/login" type="button" class="cta">Start</a>
+        <a href="/question" type="button" class="cta">Start</a>
       </div>
     </div>
   </section>
@@ -194,13 +194,6 @@
     </div>
   </section>
   <!-- End Footer -->
-
-  <script>
-    const message = "<%= alert %>";
-    if(message == "true"){
-      window.alert("Invalid Password");
-    }
-  </script>
   
   <script src="jshomepage/homepage.js"></script>
 </body>

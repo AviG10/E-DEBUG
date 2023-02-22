@@ -1,14 +1,29 @@
 const express = require("express");
+const session = require("express-session");
+const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
 
+app.use(session({
+  key: 'user_sid',
+  secret: "thisismysecrctekey",
+  resave: true,
+  saveUninitialized: false,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 1*60*60*1000*48
+  }
+}));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
 app.use(express.static("public"));
+
+app.use(cookieParser());
 
 //Connecting to MongoDB Database
 mongoose
@@ -31,7 +46,16 @@ mongoose
     wrongcode: String,
   };
 
+  // User Schema for storing their progress
+  const usersSchema = {
+    username: String,
+    password: String,
+    arr: Array,
+    index: Number,
+  };
+
   const questions = mongoose.model("questions", questionSchema);
+  const User = mongoose.model("User", usersSchema);
 
   //generate random number between two numbers
   function randomIntFromInterval(min, max) { // min and max included 
@@ -50,14 +74,86 @@ mongoose
   }
 
   app.get("/", (req, res) => {
-      res.render(`${__dirname}/Client/homepage.ejs`);
+      res.render(`${__dirname}/Client/homepage.ejs`,{ alert : false });
+  });
+
+  app.get("/login", (req, res) => {
+    res.render(`${__dirname}/Client/login.ejs`);
+  });
+
+  app.post("/login", async (req, res) => {
+    try {
+      const username = req.body.username;
+      const password = req.body.password;
+
+      const name = await User.findOne({ username: username });
+      
+      if(!name){
+        let list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let newuser = new User({
+          username: username,
+          password: password, 
+          arr: list.sort(() => Math.random() - 0.5),
+          index: Number(0)
+        });
+        // newuser.arr = ;
+        req.session.username = username;
+        req.session.password = password;
+        // req.session.index = 0;
+
+        newuser.save();
+        return res.redirect("/logout");
+      }
+      else{
+        if(name.password == password){
+          req.session.username = username;
+          req.session.password = password;
+          // req.session.index = name.index;
+          return res.redirect("/logout");
+        }
+        else{
+          return res.render(`${__dirname}/Client/homepage.ejs`, {alert : true});
+        }
+      }
+   } catch (error) {
+      console.log(error);
+      return res.status(400).send("Invalid Password");
+    }
+  });
+
+  app.get("/logout", (req, res) => {
+    res.render(`${__dirname}/Client/homepagelogout.ejs`);
+  });
+
+  app.get("/logoutbutton", (req, res) => {
+    if (req.session.username && req.cookies.user_sid) {
+      req.session.username={};
+      res.clearCookie('user_sid');
+      req.session.destroy((err) => {
+        if (err) {
+          return console.log(err);
+        }
+        res.redirect("/");
+      });
+    }
   });
 
   app.get("/question", async (req, res) => {
-    const ran = randomIntFromInterval(1, 10);
+    if (req.session.username && req.cookies.user_sid) {
+      const username = req.session.username;
+
+      const name = await User.findOne({ username: username });
+    // const ran = randomIntFromInterval(1, 10);
     
-    const strran = ran.toString();
-    var data = await questions.findOne({ questionid: strran });
+    // const strran = ran.toString();
+    if(name.arr.length == name.index){
+      let list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      name.arr = list.sort(() => Math.random() - 0.5);
+      name.index = 0;
+      name.save();
+    }
+
+    var data = await questions.findOne({ questionid: name.arr[name.index] });
 
     const n1 = "" + randomIntFromInterval(1, 9);
     const arr1 = generateRandomArray(n1);
@@ -81,19 +177,26 @@ mongoose
       n3 : n3,
       arr3: arr3,
     });
+   }
   });
 
   app.get("/next", async (req, res) => {
+    if (req.session.username && req.cookies.user_sid) {
     try {
+      const username = req.session.username;
+      const name = await User.findOne({ username: username });
+      name.index = name.index + 1;
+      name.save();
       res.redirect("/question");
     } catch (error) {
       res.status(400).send("Error");
     }
+   }
    });
 
    app.get("/submit", async (req, res) => {
     try {
-      res.redirect("/");
+      res.redirect("/logout");
     } catch (error) {
       res.status(400).send("Error");
     }
